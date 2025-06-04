@@ -1,4 +1,3 @@
-```markdown
 # 🤖 Advanced AI Chatbot with Smart Features
 
 ![Project Banner](https://via.placeholder.com/1200x400/3b82f6/ffffff?text=AI+Chatbot+with+Smart+Features)
@@ -36,15 +35,10 @@
 1. **Fork this repository**
 2. **Create a new Web Service on Render**
 3. Set these environment variables:
-   ```
-   OPENAI_API_KEY=your_api_key
-   FLASK_ENV=production
-   SECRET_KEY=your_random_secret
-   ```
 4. That's it! Render will automatically:
-   - Install dependencies
-   - Compile C++ modules
-   - Deploy your chatbot
+- Install dependencies
+- Compile C++ modules
+- Deploy your chatbot
 
 [![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy)
 
@@ -104,22 +98,3 @@ MIT License - Free for personal and commercial use
 
 
 ```
-
-### How to use this file:
-1. Copy the entire content above
-2. Create a new file named `README.md` in your project root
-3. Paste the content
-4. Make these customizations:
-   - Replace placeholder banner image URL with your actual screenshot
-   - Update `yourusername` in the git clone URL
-   - Change `[Your Name]` and `yourhandle` in the footer
-   - Add any project-specific notes if needed
-
-This file includes all the necessary sections with proper Markdown formatting for:
-- GitHub display
-- Render deployment instructions
-- Local setup guide
-- Visual architecture diagram
-- License and attribution
-
-T

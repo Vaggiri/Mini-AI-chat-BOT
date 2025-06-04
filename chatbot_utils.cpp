@@ -1,4 +1,3 @@
-// chatbot_utils.cpp
 #include <iostream>
 #include <string>
 #include <vector>
@@ -7,6 +6,12 @@
 #include <chrono>
 #include <thread>
 #include <unordered_map>
+#include <unordered_set>
+#include <functional>
+#include <mutex>
+#include <queue>
+#include <condition_variable>
+#include <cstring>
 #include <stdexcept>
 
 using namespace std;
@@ -217,7 +222,7 @@ extern "C" {
     }
     
     void free_keywords(const char** keywords, int count) {
-        for (int i =  count - 1; i >= 0; --i) {
+        for (int i = count - 1; i >= 0; --i) {
             delete[] keywords[i];
         }
         delete[] keywords;

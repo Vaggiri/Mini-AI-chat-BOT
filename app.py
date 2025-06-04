@@ -12,7 +12,11 @@ from sentence_transformers import SentenceTransformer
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
+<<<<<<< HEAD
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'ALPHA1234')
+=======
+app.config['SECRET_KEY'] = 'ALPHA1234'
+>>>>>>> b0f12607b503fcf1975894c143700f6a89574927
 CORS(app)
 
 # Initialize NLP models
