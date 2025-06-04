@@ -1,20 +1,23 @@
-# app.py
-from flask import Flask, request, jsonify, render_template, session
+from flask import Flask, request, jsonify, render_template
 from flask_cors import CORS
 import openai
 import os
-import datetime
 import sqlite3
 from werkzeug.security import generate_password_hash, check_password_hash
 import jwt
 from functools import wraps
-import subprocess
-import threading
+import nltk
+import numpy as np
+from sentence_transformers import SentenceTransformer
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-app.config['SECRET_KEY'] = 'your-secret-key-here'
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'ALPHA1234')
 CORS(app)
+
+# Initialize NLP models
+nltk.download('punkt')
+model = SentenceTransformer('all-MiniLM-L6-v2')
 
 # Database setup
 def init_db():
@@ -41,15 +44,6 @@ def init_db():
                  is_user BOOLEAN,
                  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                  FOREIGN KEY(conversation_id) REFERENCES conversations(id))''')
-    
-    c.execute('''CREATE TABLE IF NOT EXISTS documents
-                 (id INTEGER PRIMARY KEY AUTOINCREMENT,
-                 user_id INTEGER,
-                 filename TEXT,
-                 content TEXT,
-                 vector_embedding BLOB,
-                 uploaded_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                 FOREIGN KEY(user_id) REFERENCES users(id))''')
     conn.commit()
     conn.close()
 
@@ -71,21 +65,20 @@ def token_required(f):
     return decorated
 
 # OpenAI setup
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("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")
 
-# Smart features implementation
 class SmartFeatures:
     @staticmethod
     def get_contextual_response(prompt, conversation_history):
         """Generate responses with conversation context"""
         messages = [{"role": "system", "content": "You are a helpful AI assistant."}]
-        for msg in conversation_history[-5:]:  # Use last 5 messages as context
+        for msg in conversation_history[-5:]:
             role = "user" if msg['is_user'] else "assistant"
             messages.append({"role": role, "content": msg['content']})
         messages.append({"role": "user", "content": prompt})
         
         response = openai.ChatCompletion.create(
-            model="gpt-4",
+            model="gpt-3.5-turbo",
             messages=messages,
             temperature=0.7,
             max_tokens=500
@@ -93,31 +86,26 @@ class SmartFeatures:
         return response.choices[0].message.content
 
     @staticmethod
-    def analyze_sentiment(text):
-        """Sentiment analysis using OpenAI"""
-        response = openai.Completion.create(
-            engine="text-davinci-003",
-            prompt=f"Analyze the sentiment of this text: {text}\nSentiment:",
-            temperature=0.3,
-            max_tokens=60
+    def calculate_similarity(text1, text2):
+        """Python implementation of text similarity"""
+        embeddings = model.encode([text1, text2])
+        return np.dot(embeddings[0], embeddings[1]) / (
+            np.linalg.norm(embeddings[0]) * np.linalg.norm(embeddings[1])
         )
-        return response.choices[0].text.strip()
 
     @staticmethod
-    def summarize_text(text):
-        """Text summarization"""
-        response = openai.ChatCompletion.create(
-            model="gpt-4",
-            messages=[
-                {"role": "system", "content": "Summarize the following text concisely."},
-                {"role": "user", "content": text}
-            ],
-            temperature=0.5,
-            max_tokens=150
-        )
-        return response.choices[0].message.content
+    def extract_keywords(text):
+        """Python implementation of keyword extraction"""
+        words = nltk.word_tokenize(text)
+        words = [word.lower() for word in words if word.isalpha() and len(word) > 3]
+        freq_dist = nltk.FreqDist(words)
+        return [word for word, _ in freq_dist.most_common(5)]
 
 # API Routes
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 @app.route('/api/chat', methods=['POST'])
 @token_required
 def chat(current_user):
@@ -128,7 +116,6 @@ def chat(current_user):
     if not prompt:
         return jsonify({'error': 'No prompt provided'}), 400
     
-    # Get conversation history
     conn = sqlite3.connect('chatbot.db')
     c = conn.cursor()
     conversation_history = []
@@ -136,10 +123,8 @@ def chat(current_user):
         c.execute("SELECT content, is_user FROM messages WHERE conversation_id = ? ORDER BY created_at", (conversation_id,))
         conversation_history = [{'content': row[0], 'is_user': bool(row[1])} for row in c.fetchall()]
     
-    # Generate smart response
     response = SmartFeatures.get_contextual_response(prompt, conversation_history)
     
-    # Store messages
     if not conversation_id:
         c.execute("INSERT INTO conversations (user_id, title) VALUES (?, ?)", 
                   (current_user, prompt[:30] + "..."))
@@ -158,52 +143,19 @@ def chat(current_user):
         'conversation_id': conversation_id
     })
 
-@app.route('/api/login', methods=['POST'])
-def login():
+@app.route('/api/similarity', methods=['POST'])
+def similarity():
     data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
-    
-    conn = sqlite3.connect('chatbot.db')
-    c = conn.cursor()
-    c.execute("SELECT id, password FROM users WHERE username = ?", (username,))
-    user = c.fetchone()
-    conn.close()
-    
-    if not user or not check_password_hash(user[1], password):
-        return jsonify({'message': 'Invalid credentials'}), 401
-    
-    token = jwt.encode({
-        'username': username,
-        'exp': datetime.datetime.utcnow() + datetime.timedelta(hours=24)
-    }, app.config['SECRET_KEY'])
-    
-    return jsonify({'token': token})
+    return jsonify({
+        'similarity': SmartFeatures.calculate_similarity(data['text1'], data['text2'])
+    })
 
-@app.route('/api/register', methods=['POST'])
-def register():
+@app.route('/api/keywords', methods=['POST'])
+def keywords():
     data = request.get_json()
-    username = data.get('username')
-    password = data.get('password')
-    email = data.get('email')
-    
-    if not username or not password or not email:
-        return jsonify({'message': 'Missing required fields'}), 400
-    
-    hashed_password = generate_password_hash(password)
-    
-    conn = sqlite3.connect('chatbot.db')
-    c = conn.cursor()
-    try:
-        c.execute("INSERT INTO users (username, password, email) VALUES (?, ?, ?)",
-                  (username, hashed_password, email))
-        conn.commit()
-    except sqlite3.IntegrityError:
-        conn.close()
-        return jsonify({'message': 'Username or email already exists'}), 400
-    conn.close()
-    
-    return jsonify({'message': 'User created successfully'}), 201
+    return jsonify({
+        'keywords': SmartFeatures.extract_keywords(data['text'])
+    })
 
 if __name__ == '__main__':
     app.run(debug=True)

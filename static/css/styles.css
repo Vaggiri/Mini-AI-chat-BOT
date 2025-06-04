@@ -1,0 +1,438 @@
+/* Base Styles */
+:root {
+    --primary: #3b82f6;
+    --primary-dark: #2563eb;
+    --text: #1f2937;
+    --text-light: #6b7280;
+    --bg: #f9fafb;
+    --white: #ffffff;
+    --gray-light: #f3f4f6;
+    --gray-border: #e5e7eb;
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* Layout */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.app-header {
+    background-color: var(--white);
+    box-shadow: var(--shadow-sm);
+    border-bottom: 1px solid var(--gray-border);
+    padding: 0.75rem 1rem;
+    position: relative;
+    z-index: 10;
+}
+
+.header-content {
+    max-width: 100%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.app-main {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.sidebar {
+    width: 16rem;
+    background-color: var(--white);
+    border-right: 1px solid var(--gray-border);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.chat-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+/* Components */
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo-icon {
+    width: 2rem;
+    height: 2rem;
+    background: linear-gradient(to right, var(--primary), #8b5cf6);
+    border-radius: 9999px;
+}
+
+.logo-text {
+    font-weight: 700;
+    font-size: 1.125rem;
+    color: var(--text);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: var(--text-light);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+
+.icon-btn:hover {
+    color: var(--text);
+    background-color: var(--gray-light);
+}
+
+.user-avatar {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    background-color: var(--gray-light);
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+}
+
+.new-chat-btn {
+    width: 100%;
+    background-color: var(--primary);
+    color: var(--white);
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.new-chat-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.chat-history {
+    padding: 0 0.5rem;
+}
+
+.history-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--text-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.5rem 1rem;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.messages-container {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    background-color: var(--white);
+}
+
+.welcome-message {
+    max-width: 56rem;
+    margin: 0 auto;
+    text-align: center;
+    padding-top: 3rem;
+}
+
+.welcome-icon {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto 1rem;
+    background: linear-gradient(to right, #eff6ff, #ede9fe);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.welcome-icon i {
+    font-size: 1.5rem;
+    color: var(--primary);
+}
+
+.welcome-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+}
+
+.welcome-subtitle {
+    color: var(--text-light);
+    margin-bottom: 2rem;
+}
+
+.example-prompts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: 1rem;
+    max-width: 48rem;
+    margin: 0 auto;
+}
+
+.prompt-card {
+    background-color: var(--white);
+    border: 1px solid var(--gray-border);
+    border-radius: 0.5rem;
+    padding: 1rem;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.prompt-card:hover {
+    background-color: var(--gray-light);
+}
+
+.prompt-icon {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.input-area {
+    border-top: 1px solid var(--gray-border);
+    background-color: var(--white);
+    padding: 1rem;
+}
+
+.message-form {
+    max-width: 56rem;
+    margin: 0 auto;
+    display: flex;
+    align-items: flex-end;
+    gap: 0.5rem;
+}
+
+.input-container {
+    flex: 1;
+    position: relative;
+}
+
+.message-input {
+    width: 100%;
+    padding: 1rem 3.5rem 1rem 1rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--gray-border);
+    resize: none;
+    font-family: inherit;
+    max-height: 10rem;
+    min-height: 3rem;
+}
+
+.message-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+}
+
+.input-actions {
+    position: absolute;
+    right: 0.5rem;
+    bottom: 0.5rem;
+    display: flex;
+    gap: 0.25rem;
+}
+
+.send-btn {
+    background-color: var(--primary);
+    color: var(--white);
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.send-btn:hover {
+    background-color: var(--primary-dark);
+}
+
+.input-disclaimer {
+    font-size: 0.75rem;
+    color: var(--text-light);
+    text-align: center;
+    margin-top: 0.5rem;
+}
+
+.mobile-sidebar-btn {
+    display: none;
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 50%;
+    background-color: var(--primary);
+    color: var(--white);
+    border: none;
+    box-shadow: var(--shadow-md);
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+}
+
+/* Message Styles */
+.message {
+    max-width: 56rem;
+    margin: 0 auto 0.75rem;
+    display: flex;
+}
+
+.message-user {
+    justify-content: flex-end;
+}
+
+.message-assistant {
+    justify-content: flex-start;
+}
+
+.message-bubble {
+    max-width: 90%;
+    padding: 0.75rem 1rem;
+    border-radius: 0.75rem;
+    animation: fadeIn 0.3s ease-out;
+}
+
+.message-user .message-bubble {
+    background-color: var(--primary);
+    color: var(--white);
+    border-bottom-right-radius: 0;
+}
+
+.message-assistant .message-bubble {
+    background-color: var(--gray-light);
+    color: var(--text);
+    border-bottom-left-radius: 0;
+}
+
+.typing-indicator {
+    display: flex;
+    gap: 0.25rem;
+    padding: 0.75rem 1rem;
+}
+
+.typing-indicator span {
+    display: inline-block;
+    width: 0.5rem;
+    height: 0.5rem;
+    background-color: var(--text-light);
+    border-radius: 50%;
+    animation: bounce 1.5s infinite ease-in-out;
+}
+
+.typing-indicator span:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.typing-indicator span:nth-child(3) {
+    animation-delay: 0.4s;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -100%;
+        width: 80%;
+        height: 100%;
+        z-index: 15;
+        transition: left 0.3s ease;
+    }
+    
+    .sidebar.active {
+        left: 0;
+    }
+    
+    .mobile-sidebar-btn {
+        display: flex;
+    }
+    
+    .messages-container {
+        height: calc(100vh - 9rem);
+    }
+}
+
+/* Markdown-like styles in messages */
+.message-bubble pre {
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 0.25rem;
+    padding: 0.75rem;
+    overflow-x: auto;
+    margin: 0.5rem 0;
+}
+
+.message-bubble code {
+    font-family: monospace;
+    background-color: rgba(0, 0, 0, 0.1);
+    padding: 0.2rem 0.4rem;
+    border-radius: 0.25rem;
+    font-size: 0.9em;
+}
+
+.message-bubble strong {
+    font-weight: 600;
+}
+
+.message-bubble em {
+    font-style: italic;
+}

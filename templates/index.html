@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NeuraChat AI | Advanced AI Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app-container">
+        <header class="app-header">
+            <div class="header-content">
+                <div class="logo-container">
+                    <div class="logo-icon"></div>
+                    <h1 class="logo-text">NeuraChat</h1>
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn settings-btn">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button id="user-menu" class="user-avatar">
+                        <i class="fas fa-user"></i>
+                    </button>
+                </div>
+            </div>
+        </header>
+        
+        <main class="app-main">
+            <aside class="sidebar">
+                <div class="sidebar-content">
+                    <button id="new-chat" class="new-chat-btn">
+                        <i class="fas fa-plus"></i>
+                        <span>New Chat</span>
+                    </button>
+                    
+                    <div class="chat-history">
+                        <h2 class="history-title">Recent Chats</h2>
+                        <div id="chat-history-list" class="history-list">
+                            <!-- Chat history items will be added here -->
+                        </div>
+                    </div>
+                </div>
+            </aside>
+            
+            <section class="chat-area">
+                <div id="chat-messages" class="messages-container">
+                    <div id="welcome-message" class="welcome-message">
+                        <div class="welcome-icon">
+                            <i class="fas fa-robot"></i>
+                        </div>
+                        <h2 class="welcome-title">How can I help you today?</h2>
+                        <p class="welcome-subtitle">Ask me anything or try one of these examples:</p>
+                        
+                        <div class="example-prompts">
+                            <button class="prompt-card">
+                                <div class="prompt-icon">
+                                    <i class="fas fa-lightbulb"></i>
+                                </div>
+                                "Explain quantum computing in simple terms"
+                            </button>
+                            <button class="prompt-card">
+                                <div class="prompt-icon">
+                                    <i class="fas fa-code"></i>
+                                </div>
+                                "Write a Python function to calculate Fibonacci sequence"
+                            </button>
+                            <button class="prompt-card">
+                                <div class="prompt-icon">
+                                    <i class="fas fa-map-marked-alt"></i>
+                                </div>
+                                "Suggest ideas for a weekend getaway"
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="input-area">
+                    <form id="chat-form" class="message-form">
+                        <div class="input-container">
+                            <textarea 
+                                id="message-input" 
+                                class="message-input"
+                                placeholder="Message NeuraChat..."
+                                rows="1"
+                            ></textarea>
+                            <div class="input-actions">
+                                <button type="button" class="icon-btn attachment-btn">
+                                    <i class="fas fa-paperclip"></i>
+                                </button>
+                                <button type="button" id="voice-input" class="icon-btn voice-btn">
+                                    <i class="fas fa-microphone"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <button type="submit" class="send-btn">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                    <p class="input-disclaimer">
+                        NeuraChat may produce inaccurate information about people, places, or facts.
+                    </p>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <div id="mobile-sidebar-toggle" class="mobile-sidebar-btn">
+        <i class="fas fa-comments"></i>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
