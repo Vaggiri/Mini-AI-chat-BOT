@@ -13,7 +13,7 @@ import threading
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
-app.config['SECRET_KEY'] = 'your-secret-key-here'
+app.config['SECRET_KEY'] = 'ALPHA1234'
 CORS(app)
 
 # Database setup
@@ -71,7 +71,7 @@ def token_required(f):
     return decorated
 
 # OpenAI setup
-openai.api_key = os.getenv("OPENAI_API_KEY")
+openai.api_key = os.getenv("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")
 
 # Smart features implementation
 class SmartFeatures:
