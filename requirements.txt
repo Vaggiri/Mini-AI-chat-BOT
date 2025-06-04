@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 Flask==3.0.0
 openai==1.3.6
 python-dotenv==1.0.0
@@ -8,29 +7,3 @@ nltk==3.8.1
 numpy==1.26.2
 sentence-transformers==2.2.2
 gunicorn==21.2.0
-=======
-# Core Application
-Flask==3.0.0
-openai==1.3.6
-python-dotenv==1.0.0
-gunicorn==21.2.0  # Production server
-
-# Database
-Flask-SQLAlchemy==3.0.5
-alembic==1.12.0  # For migrations (optional but recommended)
-
-# Security
-pyjwt==2.8.0
-flask-cors==4.0.0
-
-# Text Processing (Lightweight)
-nltk==3.8.1
-sentence-transformers==2.2.2
-
-# C++ Integration (Required for your custom module)
-pybind11==2.11.1
-
-# Deployment Essentials
-numpy==1.26.2  # Required by sentence-transformers
-requests==2.31.0  # For API calls
->>>>>>> b0f12607b503fcf1975894c143700f6a89574927
